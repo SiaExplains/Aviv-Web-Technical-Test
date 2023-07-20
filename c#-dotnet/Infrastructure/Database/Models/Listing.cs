@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -39,5 +40,9 @@ namespace listingapi.Infrastructure.Database.Models
         public DateTime CreatedDate { get; set; }
         [Column("updated_date")]
         public DateTime UpdatedDate { get; set; }
+
+
+        public virtual ICollection<PriceHistory> PriceHistory { get; set; }
+
     }
 }

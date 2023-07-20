@@ -15,5 +15,6 @@ namespace listingapi.Infrastructure.Database
         }
 
         public virtual DbSet<Listing> Listings { get; set; }
+        public virtual DbSet<PriceHistory> PriceHistory { get; set; }
     }
 }
