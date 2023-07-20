@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>listingapi</RootNamespace>
-    <Configurations>Debug;Release</Configurations>
+    <Configurations>Release;Debug</Configurations>
     <UserSecretsId>e3027d8d-095f-4a60-8acc-df396a4bb0cb</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>.</DockerfileContext>
