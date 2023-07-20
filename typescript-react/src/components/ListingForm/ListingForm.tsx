@@ -1,8 +1,10 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { ValidationError } from 'joi';
+import { toast } from 'react-toastify';
 
 import styles from './listing-form.module.scss';
 
+import { TOSTIFY_PROPS } from '@/constants';
 import listingSchema from '@/schemas';
 import { createListing } from '@/services/listings.service';
 import { BuildingType } from '@/types';
@@ -47,13 +49,17 @@ const ListingForm = ({ onSaveProperty }: ListingFormProps) => {
       if (error instanceof ValidationError) {
         const validationErrors = error.details.map((detail) => detail.message);
         console.error('Validation errors:', validationErrors);
+        toast.error(
+          `Validation errors: ${validationErrors.join(' ')}`,
+          TOSTIFY_PROPS,
+        );
       }
       return;
     }
 
     await createListing(value);
     setFormState(createEmptyRecord());
-
+    toast.success('Listing has been created!', TOSTIFY_PROPS);
     onSaveProperty();
   };
 
