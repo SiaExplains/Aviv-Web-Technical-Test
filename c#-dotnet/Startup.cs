@@ -47,6 +47,14 @@ namespace listingapi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "listingapi", Version = "v1" });
             });
             services.AddSwaggerGenNewtonsoftSupport();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowReactApp",
+                    builder => builder.WithOrigins("http://127.0.0.1:5173")
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +64,7 @@ namespace listingapi
                 app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI();
+            app.UseCors("AllowReactApp");
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
