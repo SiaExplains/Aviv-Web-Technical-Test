@@ -23,7 +23,7 @@ namespace listingapi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var host = Environment.GetEnvironmentVariable("PGHOST") ?? String.Empty;
+            var host = Environment.GetEnvironmentVariable("PGHOST") ?? "localhost";
             var databse = Environment.GetEnvironmentVariable("PGDATABASE") ?? "listing";
             var user = Environment.GetEnvironmentVariable("PGUSER") ?? "listing";
             var pwd = Environment.GetEnvironmentVariable("PGPASSWORD") ?? "listing";
