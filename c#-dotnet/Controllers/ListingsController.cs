@@ -174,6 +174,42 @@ namespace listingapi.Controllers
             }
         }
 
+        /// <summary>
+        /// Create a listing
+        /// </summary>
+        /// <param name="listing"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(PriceHistory))]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Route("{id}/prices")]
+        public async Task<IActionResult> PostPriceHistoryAsync([FromBody] PriceHistory priceHistory, CancellationToken cancellationToken)
+        {
+            if (priceHistory == null || priceHistory.PriceEur == 0 || priceHistory.ListingId == 0)
+                return BadRequest();
+            try
+            {
+                // Insert
+                var createDate = DateTime.Now;
+                var result = new Infrastructure.Database.Models.PriceHistory
+                {
+                    ListingId = priceHistory.ListingId,
+                    Price = priceHistory.PriceEur,
+                    CreatedDate = createDate.ToUniversalTime()
+                };
+                _listingsContext.PriceHistory.Add(result);
+                await _listingsContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                return StatusCode(StatusCodes.Status201Created, MapPriceHistory(result));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"PostPriceHistoryAsync. Price : {priceHistory}. Exception : {ex}");
+                return StatusCode(500);
+            }
+        }
+
         private static ListingReadOnly MapListing(Infrastructure.Database.Models.Listing listing)
         {
             return new ListingReadOnly
